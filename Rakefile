@@ -65,7 +65,7 @@ file '_data/videos.yml' => '_data/videos_raw.yml' do |t|
         fragments =
           video[:description][pos..]
           .split("\n")
-          .map { |ln| ln.scan(/^(\d+:\d+(?::\d+)?)[- —]+(.+)$/).flatten.tap { p [ln, _1] } }
+          .map { |ln| ln.scan(/^(\d+:\d+(?::\d+)?)[- —]+(.+)$/).flatten }
           .each { _1.length == 2 or raise "Weird timecode line: #{_1}"}
           .map { %i[start title].zip(_1).to_h }
           .tap { |ary| ary.each_cons(2) { _1[:end] = _2[:start] } }
@@ -142,8 +142,9 @@ task fetch_videos: '_data/videos_raw.yml'
 desc 'Розбити та причесати описи відео'
 task parse_videos: '_data/videos.yml'
 
+# TODO: автоматично список сторінок!
 desc "Згенерувати сторінки з відео"
-task video_pages: (1..62).map { 'videos/%02i.md' % _1 }
+task video_pages: (1..63).map { 'videos/%02i.md' % _1 }
 
 desc "Згенерувати пошуковий індекс"
 task search_page: 'search.md'
