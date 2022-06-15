@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    <head>
+
+        {%- include head.html -%}
+
+    </head>
+    <body>
+        <div class="book">
+
+            {%- include toc.html -%}
+
+            <div class="book-body">
+                <div class="book-header" role="navigation">
+                    <!-- Title -->
+                    <h1>
+                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                        <a href="." >{{ page.title | escape }}</a>
+                    </h1>
+                </div>
+
+                <div class="body-inner">
+                    <div class="page-wrapper" role="main">
+                        <div class="page-inner">
+                            {{ content }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+            var gitbook = gitbook || [];
+            gitbook.push(function() {
+                gitbook.page.hasChanged({%- include metadata-post.json.tpl -%});
+            });
+            </script>
+        </div>
+
+        {%- include footer.html -%}
+
+    </body>
+</html>

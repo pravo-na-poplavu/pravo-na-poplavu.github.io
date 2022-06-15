@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    <head>
+
+        {%- include head.html -%}
+        <script src="https://www.youtube.com/iframe_api"></script>
+        <script src="{{site.baseurl}}/js/lunr.min.js"></script>
+        <script src="{{site.baseurl}}/js/lunr.stemmer.support.min.js"></script>
+        <script src="{{site.baseurl}}/js/lunr.multi.min.js"></script>
+        <script src="{{site.baseurl}}/js/lunr.uk.js"></script>
+        <script src="https://www.youtube.com/iframe_api"></script>
+
+        <script type="text/javascript">
+            var fragments = {{ page.fragments }}
+            var index_src = {{ page.index }}
+            var idx = lunr.Index.load(index_src)
+
+            function searchFragments(event) {
+                event.preventDefault();
+
+                var query = document.getElementById('searchQuery').value;
+                var results = idx.search(query).
+                                 map(item => fragments.find(frag => frag.id == item.ref) ).
+                                 sort(
+                                    (left, right) => left.video.number === right.video.number ?
+                                                     (left.start_seconds < right.start_seconds ? -1 : 1) :
+                                                     (left.video.number > right.video.number ? -1 : 1)
+                                )
+                // TODO: also link to that video's page
+                $('#searchResults').empty().html(
+                    results.map( fragment => `
+                        <li> ${fragment.video.date}:
+                            <a class='timecode' href='#' onclick='jumpto(event, "${fragment.video.video_id}", ${fragment.start_seconds})'>
+                            #${fragment.video.number} ${fragment.start}</a>
+                            ${fragment.title}
+                        </li>`)
+                        .join("\n")
+                )
+
+                return false
+            }
+
+            var player;
+            function jumpto(event, videoId, seconds) {
+                console.log(videoId, seconds)
+                // TODO: not reload if this video already loaded, just seekTo
+                player.loadVideoById({'videoId': videoId, 'startSeconds': seconds});
+                player.playVideo()
+                event.preventDefault();
+                return false;
+            }
+        </script>
+    </head>
+    <body>
+        <div class="book">
+
+            {%- include toc.html -%}
+
+            <div class="book-body">
+                <div class="book-header" role="navigation">
+                    <!-- Title -->
+                    <h1>
+                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                        {% if page.title %}
+                            <a href="." >{{ page.title | escape }}</a>
+                        {% else %}
+                            <a href="." >{{ site.title | escape }}</a>
+                        {% endif %}
+                    </h1>
+                </div>
+
+                <div class="body-inner">
+                    <div class="page-wrapper" role="main">
+                        <div class="page-inner">
+                            <iframe id="player" width="420" height="315" src="https://www.youtube.com/embed/{{site.data.videos.first.video_id}}?enablejsapi=1"></iframe>
+
+                            <script type="text/javascript">
+                                function onYouTubeIframeAPIReady() {
+                                    player = new YT.Player('player', {});
+                                }
+                            </script>
+
+                            <div>
+                                <form onSubmit="searchFragments(event)">
+                                    <label>Пошук:</label>
+                                    <input type="text" id="searchQuery" />
+                                    <button type="submit">Шукати!</button>
+                                </form>
+                            </div>
+
+                            <ul id="searchResults"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+            var gitbook = gitbook || [];
+            gitbook.push(function() {
+                gitbook.page.hasChanged({%- include metadata-post.json.tpl -%});
+            });
+            </script>
+        </div>
+
+        {%- include footer.html -%}
+    </body>
+</html>

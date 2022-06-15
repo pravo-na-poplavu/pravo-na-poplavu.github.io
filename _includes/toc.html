@@ -1,0 +1,43 @@
+<div class="book-summary">
+    <nav role="navigation">
+        <!--
+        <div id="book-search-input" role="search">
+            <input type="text" placeholder="Type to search" />
+        </div>
+        <div id="book-search-input-link" role="search">
+            <a href="{{site.baseurl}}/search.html">Click to Search</a>
+        </div>
+        -->
+        <ul class="summary">
+            {% if page.url == "/index.html" or page.url == "/" %}
+            <li class="chapter active" data-level="1.1" data-path="{{site.baseurl}}">
+            {% else %}
+            <li class="chapter" data-level="1.1" data-path="{{site.baseurl}}">
+            {% endif %}
+                <a href="{{site.baseurl}}/">
+                    {{ site.title | escape }}
+                </a>
+            </li>
+
+            <li class="divider"></li>
+
+            <li class="chapter">
+                <a href="{{site.baseurl}}/search.html">
+                    Пошук
+                </a>
+            </li>
+
+            <li class="divider"></li>
+
+            {% for video in site.data.videos %}
+                <!-- TODO: active для поточного -->
+                <!-- <p>{{ collection.label }}</p> -->
+                <li class="chapter">
+                    <a href='{{site.baseurl}}/videos/{{video.number_str}}.html'>
+                        <span class="toc-date">{{ video.short_date }}</span> {{ video.short_title | escape }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+</div>

@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    <head>
+
+        {%- include head.html -%}
+
+        {% if page.previous %}
+            <link rel="prev" href="{{site.baseurl}}{{page.previous.url}}" />
+        {% else %}
+            <link rel="prev" href="{{site.baseurl}}/" />
+        {% endif %}
+
+        {% if page.next %}
+            <link rel="next" href="{{site.baseurl}}{{page.next.url}}" />
+        {% endif %}
+        <script src="https://www.youtube.com/iframe_api"></script>
+        <script type="text/javascript">
+            var player;
+            function onYouTubeIframeAPIReady() {
+                player = new YT.Player('player', {});
+            }
+            function jumpto(event, seconds) {
+                player.seekTo(seconds, true)
+                player.playVideo()
+                event.preventDefault();
+                return false;
+            }
+        </script>
+    </head>
+    <body>
+        <div class="book">
+
+            {%- include toc.html -%}
+
+            <div class="book-body">
+                <div class="book-header" role="navigation">
+                    <!-- Title -->
+                    <h1>
+                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                        <a href="." >{{ page.title | escape }} ({{ page.date }})</a>
+                    </h1>
+                </div>
+
+                <div class="body-inner">
+                    <div class="page-wrapper" role="main">
+                        <div class="page-inner">
+                            <iframe id="player" width="420" height="315" src="https://www.youtube.com/embed/{{page.video_id}}?enablejsapi=1"></iframe>
+
+                            <ul>
+                            {% for fragment in page.fragments %}
+                                <li><a class='timecode' href='#' onclick='jumpto(event, {{fragment.start_seconds}})' >{{fragment.start}}</a> {{fragment.title}}</li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
+                    {% if page.previous %}
+                        <a href="{{site.baseurl}}/videos/{{page.previous.number_str}}.html" class="navigation navigation-prev navigation-unique" aria-label="Новіше: {{page.previous.title}}">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                    {% endif %}
+
+                    {% if page.next %}
+                        <a href="{{site.baseurl}}/videos/{{page.next.number_str}}.html" class="navigation navigation-next navigation-unique" aria-label="Старіше: {{page.next.title}}">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <script>
+            var gitbook = gitbook || [];
+            gitbook.push(function() {
+                gitbook.page.hasChanged({%- include metadata-post.json.tpl -%});
+            });
+            </script>
+        </div>
+
+        {%- include footer.html -%}
+
+    </body>
+</html>

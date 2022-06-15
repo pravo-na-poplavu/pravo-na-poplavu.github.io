@@ -1,0 +1,11 @@
+_tmp
+_videos
+.env
+package.json
+package-lock.json
+.jekyll-cache
+node_modules
+Gemfile.lock
+_transcripts
+.rubocop.yml
+_site
