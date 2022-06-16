@@ -12,7 +12,7 @@ layout: index
 
 ## Хто зробив сайт
 
-[Віктор Шепелєв aka zverok](https://twitter.com/zverok) з Харкова. [Код сайту на GitHub](https://github.com/orgs/pravo-na-poplavu/pravo-na-poplavu.github.io). Можна трохи допомогти з дизайном, бо в мене лапки. Інші ідеї теж приймаються!
+[Віктор Шепелєв aka zverok](https://twitter.com/zverok) з Харкова. [Код сайту на GitHub](https://github.com/pravo-na-poplavu/pravo-na-poplavu.github.io). Можна трохи допомогти з дизайном, бо в мене лапки. Інші ідеї теж приймаються!
 
 Усі права на контент належать авторам Поплави.
 
