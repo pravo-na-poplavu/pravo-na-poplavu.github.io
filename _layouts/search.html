@@ -19,6 +19,12 @@
                 event.preventDefault();
 
                 var query = document.getElementById('searchQuery').value;
+                search(query)
+                window.location.hash = query;
+                return false
+            }
+
+            function search(query) {
                 var results = idx.search(query).
                                  map(item => fragments.find(frag => frag.id == item.ref) ).
                                  sort(
@@ -36,8 +42,6 @@
                         </li>`)
                         .join("\n")
                 )
-
-                return false
             }
 
             var player;
@@ -48,6 +52,11 @@
                 player.playVideo()
                 event.preventDefault();
                 return false;
+            }
+
+            window.onload = () => {
+                var str = decodeURIComponent(window.location.hash.slice(1))
+                if (str.length > 0)  { search(str) }
             }
         </script>
     </head>

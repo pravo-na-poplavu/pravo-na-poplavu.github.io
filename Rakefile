@@ -144,7 +144,7 @@ task parse_videos: '_data/videos.yml'
 
 # TODO: автоматично список сторінок!
 desc "Згенерувати сторінки з відео"
-task video_pages: (1..63).map { 'videos/%02i.md' % _1 }
+task video_pages: (1..68).map { 'videos/%02i.md' % _1 }
 
 desc "Згенерувати пошуковий індекс"
 task search_page: 'search.md'
